@@ -12,17 +12,17 @@ function isValid(dateTime: string) {
   return validTo.diff(now) > 0;
 }
 
-function checkCache(url: string) {
-  const cachedData = localStorage.getItem(url);
+function getCachedOrInvalidate(url: string) {
   const cachedDataValidTill = localStorage.getItem(`${url}-validTill`);
-
-  if (cachedData && cachedDataValidTill && isValid(cachedDataValidTill)) {
-    return JSON.parse(cachedData);
-  } else {
-    localStorage.removeItem(url);
-    localStorage.removeItem(`${url}-validTill`);
+  
+  if (cachedDataValidTill && isValid(cachedDataValidTill)) {
+    const cachedData = localStorage.getItem(url);
+    if (cachedData) return JSON.parse(cachedData);
   }
 
+  localStorage.removeItem(url);
+  localStorage.removeItem(`${url}-validTill`);
+ 
   return null;
 }
 
@@ -43,7 +43,7 @@ export async function searchGifs({
 }: SearchProps): Promise<SearchResponse> {
   try {
     const url = `${BASE_URL}/gifs/search?q=${query}&api_key=${API_KEY}&limit=${limit}&offset=${offset}"`;
-    const cached = checkCache(url);
+    const cached = getCachedOrInvalidate(url);
     if (cached) return cached;
 
     const res = await axios.get(url);
@@ -55,14 +55,3 @@ export async function searchGifs({
   }
 }
 
-// export async function getTrending(): Promise<any | Error> {
-//   try {
-//     const res = await axios.get(
-//       `${BASE_URL}/trending/searches?api_key=${API_KEY}`
-//     );
-
-//     return res.data;
-//   } catch (error) {
-//     return error;
-//   }
-// }

@@ -55,8 +55,22 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { searchGifs, DataResult, Pagination } from "../../utils/giphyApi";
+import { searchGifs } from "../../utils/giphyApi";
+import { DataResult, Pagination } from "../../utils/giphyApiTypes";
 import ResultGrid from "./resultGrid.vue";
+import gql from "graphql-tag";
+
+const ADD_SEARCH_TERM = gql`
+  mutation MyMutation($term: String!) {
+    insert_SearchTerm(objects: { term: $term }) {
+      returning {
+        created_at
+        id
+        term
+      }
+    }
+  }
+`;
 
 interface BuiltGif extends DataResult {
   buildUrl: string;
@@ -64,12 +78,13 @@ interface BuiltGif extends DataResult {
 
 @Component({
   components: {
-    ResultGrid,
-  },
+    ResultGrid
+  }
 })
 export default class Search extends Vue {
   isLoading = false;
   query = "";
+  prevQuery = "";
   limit = 12;
   totalCount = 0;
   page = 1;
@@ -89,16 +104,30 @@ export default class Search extends Vue {
 
   async search() {
     this.isLoading = true;
+
+    if (this.query != this.prevQuery) this.createSearchTerm();
+    this.prevQuery = this.query;
+
     const res = await searchGifs({
       query: this.query,
       offset: this.offset,
-      limit: this.limit,
+      limit: this.limit
     });
+
     this.results = res.data;
     this.pagination = res.pagination;
     this.totalCount = this.pagination.total_count;
     this.buildGifs();
     this.isLoading = false;
+  }
+
+  createSearchTerm() {
+    this.$apollo.mutate({
+      mutation: ADD_SEARCH_TERM,
+      variables: {
+        term: this.query
+      }
+    });
   }
 
   changePage(page: number) {
@@ -110,7 +139,7 @@ export default class Search extends Vue {
     this.gifs = this.results.map((gif: DataResult) => {
       return {
         ...gif,
-        buildUrl: `https://media.giphy.com/media/${gif.id}/giphy.gif`,
+        buildUrl: `https://media.giphy.com/media/${gif.id}/giphy.gif`
       };
     });
   }

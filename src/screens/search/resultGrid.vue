@@ -4,15 +4,8 @@
     <div v-else class="tile is-ancestor is-vertical">
       <div v-for="gifs in chunkedGifs" :key="gifs[0].slug" class="tile">
         <div v-for="gif in gifs" :key="gif.id" class="tile is-parent">
-          <div class="tile is-child box">
-            <!-- <figure class="image is-4by4"> -->
-            <progressive-img
-              :src="gif.buildUrl"
-              @load="onImgLoad"
-              loading="lazy"
-            />
-            <!-- </figure> -->
-            <!-- <div :style="{ color: 'blue' }"></div> -->
+          <div class="tile is-child box hvr-grow">
+            <img :src="gif.buildUrl" @load="onImgLoad" loading="lazy" />
           </div>
         </div>
       </div>
@@ -27,8 +20,8 @@ import _ from "lodash";
 
 @Component({
   components: {
-    Loader,
-  },
+    Loader
+  }
 })
 export default class ResultGrid extends Vue {
   @Prop() loading!: boolean;

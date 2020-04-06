@@ -1,14 +1,13 @@
 <template>
   <div id="app">
     <div class="container">
-      <b-tabs position="is-centered">
+      <b-tabs position="is-centered" size="is-medium" @change="setActiveTab">
         <b-tab-item label="Search" icon="search" icon-pack="fa">
-          <Search />
+          <Search v-if="activeTab === 0" />
         </b-tab-item>
         <b-tab-item label="Stats" icon="chart-line" icon-pack="fa">
-          <Stats />
+          <Stats v-if="activeTab === 1" />
         </b-tab-item>
-        <b-tab-item label="Tinder" icon="cat" icon-pack="fa"></b-tab-item>
       </b-tabs>
     </div>
   </div>
@@ -23,9 +22,15 @@ import Stats from "./screens/stats/index.vue";
   components: {
     Search,
     Stats
-  },
+  }
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  activeTab = 0;
+
+  setActiveTab(tab: number) {
+    this.activeTab = tab;
+  }
+}
 </script>
 
 <style lang="scss">

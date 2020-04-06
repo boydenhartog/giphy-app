@@ -10,7 +10,7 @@ export interface SearchProps {
   offset: number;
 }
 
-interface DataResult {
+export interface DataResult {
   type: string;
   id: string;
   url: string;
@@ -33,13 +33,13 @@ interface DataResult {
   analytics: object;
 }
 
-interface Pagination {
+export interface Pagination {
   total_count: number;
   count: number;
   offset: number;
 }
 
-interface Meta {
+export interface Meta {
   status: number;
   msg: string;
   response_id: string;
