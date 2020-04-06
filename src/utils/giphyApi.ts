@@ -1,60 +1,53 @@
 import axios from "axios";
+import moment from "moment";
+import { SearchProps, SearchResponse } from "./giphyApiTypes";
 
-const BASE_URL = "https://api.giphy.com/v1/gifs";
+const BASE_URL = "https://api.giphy.com/v1";
 const API_KEY = process.env.VUE_APP_GIPHY_API_KEY;
 
-export interface SearchResponse {
-  data: Array<DataResult>;
-  pagination: Pagination;
-  meta: Meta;
+function isValid(dateTime: string) {
+  const now = moment();
+  const validTo = moment(dateTime);
+
+  return validTo.diff(now) > 0;
 }
 
-export interface DataResult {
-  type: string;
-  id: string;
-  url: string;
-  slug: string;
-  bitly_gif_url: string;
-  bitly_url: string;
-  embed_url: string;
-  username: string;
-  source: string;
-  title: string;
-  rating: string;
-  content_url: string;
-  source_tld: string;
-  source_post_url: string;
-  is_sticker: number;
-  import_datetime: string;
-  trending_datetime: string;
-  images: object;
-  analytics_response_payload: string;
-  analytics: object;
+function checkCache(url: string) {
+  const cachedData = localStorage.getItem(url);
+  const cachedDataValidTill = localStorage.getItem(`${url}-validTill`);
+
+  if (cachedData && cachedDataValidTill && isValid(cachedDataValidTill)) {
+    return JSON.parse(cachedData);
+  } else {
+    localStorage.removeItem(url);
+    localStorage.removeItem(`${url}-validTill`);
+  }
+
+  return null;
 }
 
-export interface Pagination {
-  total_count: number;
-  count: number;
-  offset: number;
+function cacheRequest(url: string, res: SearchResponse) {
+  localStorage.setItem(url, JSON.stringify(res));
+  localStorage.setItem(
+    `${url}-validTill`,
+    moment()
+      .add(5, "minutes")
+      .format()
+  );
 }
 
-export interface Meta {
-  status: number;
-  msg: string;
-  response_id: string;
-}
-
-interface SearchProps {
-  query: string,
-  limit: number,
-  offset: number
-}
-
-async function search({ query, limit = 6, offset = 0 }: SearchProps): Promise<SearchResponse> {
+export async function searchGifs({
+  query,
+  limit = 6,
+  offset = 0,
+}: SearchProps): Promise<SearchResponse> {
   try {
-    const res = await axios.get(
-      `${BASE_URL}/search?q=${query}&api_key=${API_KEY}&limit=${limit}&offset=${offset}"`
-    );
+    const url = `${BASE_URL}/gifs/search?q=${query}&api_key=${API_KEY}&limit=${limit}&offset=${offset}"`;
+    const cached = checkCache(url);
+    if (cached) return cached;
+
+    const res = await axios.get(url);
+    cacheRequest(url, res.data);
 
     return res.data;
   } catch (error) {
@@ -62,4 +55,14 @@ async function search({ query, limit = 6, offset = 0 }: SearchProps): Promise<Se
   }
 }
 
-export default search;
+// export async function getTrending(): Promise<any | Error> {
+//   try {
+//     const res = await axios.get(
+//       `${BASE_URL}/trending/searches?api_key=${API_KEY}`
+//     );
+
+//     return res.data;
+//   } catch (error) {
+//     return error;
+//   }
+// }

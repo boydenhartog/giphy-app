@@ -1,8 +1,21 @@
 <template>
-  <div class="results-container">
+  <div>
     <Loader v-if="loading" />
-    <div v-else v-for="gif in gifs" :key="gif.id" class="gif-container">
-      <img :src="gif" />
+    <div v-else class="tile is-ancestor is-vertical">
+      <div v-for="gifs in chunkedGifs" :key="gifs[0].slug" class="tile">
+        <div v-for="gif in gifs" :key="gif.id" class="tile is-parent">
+          <div class="tile is-child box">
+            <!-- <figure class="image is-4by4"> -->
+            <progressive-img
+              :src="gif.buildUrl"
+              @load="onImgLoad"
+              loading="lazy"
+            />
+            <!-- </figure> -->
+            <!-- <div :style="{ color: 'blue' }"></div> -->
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -10,6 +23,7 @@
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 import Loader from "../../components/loader.vue";
+import _ from "lodash";
 
 @Component({
   components: {
@@ -17,16 +31,28 @@ import Loader from "../../components/loader.vue";
   },
 })
 export default class ResultGrid extends Vue {
-  @Prop() loading = false;
-  @Prop() gifs: Array<string> = [];
+  @Prop() loading!: boolean;
+  @Prop() gifs!: Array<object>;
+
+  get chunkedGifs() {
+    return _.chunk(this.gifs, 4);
+  }
+
+  onImgLoad() {
+    return;
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 .results-container {
   display: flex;
-  flex-wrap: wrap;
   margin-top: 30px;
+
+  .loader-container {
+    height: 300px;
+    width: 300px;
+  }
 
   .gif-container {
     height: 250px;

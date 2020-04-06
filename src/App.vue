@@ -1,17 +1,29 @@
 <template>
   <div id="app">
-    <Search />
+    <div class="container">
+      <b-tabs position="is-centered">
+        <b-tab-item label="Search" icon="search" icon-pack="fa">
+          <Search />
+        </b-tab-item>
+        <b-tab-item label="Stats" icon="chart-line" icon-pack="fa">
+          <Stats />
+        </b-tab-item>
+        <b-tab-item label="Tinder" icon="cat" icon-pack="fa"></b-tab-item>
+      </b-tabs>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import Search from "./screens/search/index.vue";
+import Stats from "./screens/stats/index.vue";
 
 @Component({
   components: {
-    Search
-  }
+    Search,
+    Stats
+  },
 })
 export default class App extends Vue {}
 </script>
@@ -24,17 +36,5 @@ export default class App extends Vue {}
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-
-  html {
-    box-sizing: border-box;
-  }
-  *,
-  *:before,
-  *:after {
-    box-sizing: inherit;
-  }
 }
 </style>
