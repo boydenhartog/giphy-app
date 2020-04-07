@@ -1,16 +1,13 @@
 <template>
-  <div class="stats-page columns">
-    <div class="column">
-      <h2>Trending search terms</h2>
+  <div class="stats-page container">
+    <h2>Trending search terms</h2>
 
-      <Chart
-        v-if="SearchTerm.length > 0"
-        class="chart"
-        :data="preparedData()"
-        :options="options"
-      />
-    </div>
-    <div class="column"></div>
+    <Chart
+      v-if="SearchTerm.length > 0"
+      class="chart"
+      :data="prepareData()"
+      :options="options"
+    />
   </div>
 </template>
 
@@ -20,24 +17,11 @@ import gql from "graphql-tag";
 import _ from "lodash";
 import Chart from "../../components/chart";
 
-const countResults = (object: object) => {
-  const termCounts = _.countBy(object, "term");
-  const sortable = [];
-  for (const termCount in termCounts) {
-    sortable.push([termCount, termCounts[termCount]]);
-  }
-
-  sortable.sort(function(a, b) {
-    return b[1] - a[1];
-  });
-
-  const objSorted = {};
-  sortable.forEach(function(item) {
-    objSorted[item[0]] = item[1];
-  });
-
-  return objSorted;
-};
+interface SearchTermResult {
+  id: number;
+  term: string;
+  created_at: string;
+}
 
 const GET_SEARCH_TERMS = gql`
   query getSearchTerms {
@@ -74,19 +58,25 @@ export default class Stats extends Vue {
     }
   };
 
-  getTopFiveSearchTerms() {
-    console.log("this.SearchTerm: ", this.SearchTerm);
-    const sortedSearchTerms = countResults(this.SearchTerm);
-    console.log("sortedSearchTerms: ", sortedSearchTerms);
-    return _.take(sortedSearchTerms, 5);
+  countAndSortResults(searchTerms: Array<SearchTermResult>) {
+    const termCounts: { [key: string]: number } = _.countBy(
+      searchTerms,
+      "term"
+    );
+    const termCountsArray = Object.entries(termCounts);
+
+    termCountsArray.sort((a, b) => {
+      return b[1] - a[1];
+    });
+
+    return termCountsArray;
   }
 
-  preparedData() {
-    const topFive = this.getTopFiveSearchTerms();
-    const labels = Object.keys(topFive);
-    console.log(labels);
-    const data = Object.values(topFive);
-    console.log(data);
+  prepareData() {
+    const topFive = this.countAndSortResults(this.SearchTerm).slice(0, 5);
+    const labels = topFive.map(topFive => topFive[0]);
+    const data = topFive.map(topFive => topFive[1]);
+
     return {
       labels,
       datasets: [
@@ -94,12 +84,12 @@ export default class Stats extends Vue {
           label: "# of searches",
           data,
           backgroundColor: [
-            "rgba(255, 99, 132, 0.2)",
-            "rgba(54, 162, 235, 0.2)",
-            "rgba(255, 206, 86, 0.2)",
-            "rgba(75, 192, 192, 0.2)",
-            "rgba(153, 102, 255, 0.2)",
-            "rgba(255, 159, 64, 0.2)"
+            "rgba(255, 99, 132, 1)",
+            "rgba(54, 162, 235, 1)",
+            "rgba(255, 206, 86, 1)",
+            "rgba(75, 192, 192, 1)",
+            "rgba(153, 102, 255, 1)",
+            "rgba(255, 159, 64, 1)"
           ],
           borderColor: [
             "rgba(255, 99, 132, 1)",
@@ -120,6 +110,6 @@ export default class Stats extends Vue {
 <style lang="scss" scoped>
 .stats-page {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 </style>

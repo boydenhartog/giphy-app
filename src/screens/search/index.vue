@@ -136,10 +136,11 @@ export default class Search extends Vue {
   }
 
   buildGifs() {
+    console.log(this.gifs);
     this.gifs = this.results.map((gif: DataResult) => {
       return {
         ...gif,
-        buildUrl: `https://media.giphy.com/media/${gif.id}/giphy.gif`
+        buildUrl: gif.images.fixed_height_downsampled.url
       };
     });
   }

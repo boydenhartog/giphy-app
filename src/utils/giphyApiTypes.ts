@@ -28,7 +28,12 @@ export interface DataResult {
   is_sticker: number;
   import_datetime: string;
   trending_datetime: string;
-  images: object;
+  images: {
+    fixed_height_downsampled: {
+      url: string,
+      webp: string,
+    }
+  };
   analytics_response_payload: string;
   analytics: object;
 }
