@@ -15,6 +15,12 @@
       </b-field>
     </div>
 
+    <b-modal :active.sync="modalActive" :on-cancel="closeModal">
+      <p class="image">
+        <img :src="activeGif" />
+      </p>
+    </b-modal>
+
     <b-pagination
       :total="totalCount"
       :current="page"
@@ -31,7 +37,11 @@
       icon-pack="fa"
     />
 
-    <ResultGrid :loading="isLoading" :gifs="gifs" />
+    <ResultGrid
+      @setActiveGif="openModal($event)"
+      :loading="isLoading"
+      :gifs="gifs"
+    />
 
     <b-pagination
       v-if="totalCount > limit"
@@ -72,10 +82,6 @@ const ADD_SEARCH_TERM = gql`
   }
 `;
 
-interface BuiltGif extends DataResult {
-  buildUrl: string;
-}
-
 @Component({
   components: {
     ResultGrid
@@ -88,11 +94,12 @@ export default class Search extends Vue {
   limit = 12;
   totalCount = 0;
   page = 1;
-  results: Array<DataResult> = [];
-  pagination?: Pagination = undefined;
-  gifs: Array<BuiltGif> = [];
+  gifs: Array<DataResult> = [];
+  pagination!: Pagination;
   prevIcon = "chevron-left";
   nextIcon = "chevron-right";
+  modalActive = false;
+  activeGif = "";
 
   get totalPages() {
     return Math.floor(this.totalCount / this.limit);
@@ -100,6 +107,16 @@ export default class Search extends Vue {
 
   get offset() {
     return (this.page - 1) * this.limit;
+  }
+
+  openModal(gifUrl: string) {
+    this.modalActive = true;
+    this.activeGif = gifUrl;
+  }
+
+  closeModal() {
+    this.modalActive = false;
+    this.activeGif = "";
   }
 
   async search() {
@@ -114,10 +131,9 @@ export default class Search extends Vue {
       limit: this.limit
     });
 
-    this.results = res.data;
+    this.gifs = res.data;
     this.pagination = res.pagination;
     this.totalCount = this.pagination.total_count;
-    this.buildGifs();
     this.isLoading = false;
   }
 
@@ -133,16 +149,6 @@ export default class Search extends Vue {
   changePage(page: number) {
     this.page = page;
     this.search();
-  }
-
-  buildGifs() {
-    console.log(this.gifs);
-    this.gifs = this.results.map((gif: DataResult) => {
-      return {
-        ...gif,
-        buildUrl: gif.images.fixed_height_downsampled.url
-      };
-    });
   }
 }
 </script>

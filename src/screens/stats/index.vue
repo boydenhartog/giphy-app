@@ -1,13 +1,16 @@
 <template>
-  <div class="stats-page container">
-    <h2>Trending search terms</h2>
+  <div class="stats-page columns">
+    <div class="column">
+      <h1>Trending search terms</h1>
 
-    <Chart
-      v-if="SearchTerm.length > 0"
-      class="chart"
-      :data="prepareData()"
-      :options="options"
-    />
+      <Chart
+        v-if="SearchTerm.length > 0"
+        class="chart"
+        :data="prepareData()"
+        :options="options"
+      />
+    </div>
+    <div class="column"></div>
   </div>
 </template>
 
@@ -47,6 +50,11 @@ export default class Stats extends Vue {
   SearchTerm = [];
   topFiveSearchTerms = {};
   options = {
+    legend: {
+      display: false,
+    },
+    defaultFontFamily: "Avenir",
+    defaultFontColor: "#2c3e50",
     scales: {
       yAxes: [
         {
@@ -110,6 +118,6 @@ export default class Stats extends Vue {
 <style lang="scss" scoped>
 .stats-page {
   display: flex;
-  flex-direction: column;
+  // flex-direction: column;
 }
 </style>

@@ -4,8 +4,15 @@
     <div v-else class="tile is-ancestor is-vertical">
       <div v-for="gifs in chunkedGifs" :key="gifs[0].slug" class="tile">
         <div v-for="gif in gifs" :key="gif.id" class="tile is-parent">
-          <div class="tile is-child box hvr-grow">
-            <img :src="gif.buildUrl" @load="onImgLoad" loading="lazy" />
+          <div
+            class="tile is-child box hvr-grow"
+            @click="setActiveGif(gif.images.original.url)"
+          >
+            <img
+              :src="gif.images.fixed_height_downsampled.url"
+              @load="onImgLoad"
+              loading="lazy"
+            />
           </div>
         </div>
       </div>
@@ -29,6 +36,10 @@ export default class ResultGrid extends Vue {
 
   get chunkedGifs() {
     return _.chunk(this.gifs, 4);
+  }
+
+  setActiveGif(activeGif: string) {
+    this.$emit("setActiveGif", activeGif);
   }
 
   onImgLoad() {
