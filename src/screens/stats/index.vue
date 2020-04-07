@@ -1,11 +1,16 @@
 <template>
-  <div class="stats-page columns">
-    <div class="column">
-      <h1>Trending search terms</h1>
-      <Loader v-if="$apollo.loading" />
-      <BarChart v-else :searchTerms="SearchTerm" />
+  <div>
+    <Loader v-if="$apollo.loading" />
+    <div v-else class="columns">
+      <div class="column">
+        <h1>Trending search terms</h1>
+        <BarChart :searchTerms="SearchTerm" />
+      </div>
+      <div class="column">
+        <h1>Searches per day</h1>
+        <LineChart :searchTerms="SearchTerm" />
+      </div>
     </div>
-    <div class="column"></div>
   </div>
 </template>
 
@@ -13,7 +18,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import gql from "graphql-tag";
 import Loader from "../../components/loader.vue";
-
+import LineChart from "./lineChart.vue";
 import BarChart from "./barChart.vue";
 
 interface SearchTermResult {
@@ -38,7 +43,7 @@ const GET_SEARCH_TERMS = gql`
       query: GET_SEARCH_TERMS
     }
   },
-  components: { BarChart, Loader }
+  components: { BarChart, LineChart, Loader }
 })
 export default class Stats extends Vue {
   isLoading = true;

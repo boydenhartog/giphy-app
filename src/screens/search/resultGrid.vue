@@ -8,11 +8,7 @@
             class="tile is-child box hvr-grow"
             @click="setActiveGif(gif.images.original.url)"
           >
-            <img
-              :src="gif.images.fixed_height_downsampled.url"
-              @load="onImgLoad"
-              loading="lazy"
-            />
+            <img :src="gif.images.fixed_height_downsampled.url" />
           </div>
         </div>
       </div>

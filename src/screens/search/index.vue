@@ -17,7 +17,7 @@
 
     <b-modal :active.sync="modalActive" :on-cancel="closeModal">
       <p class="image">
-        <img :src="activeGif" />
+        <img :src="activeGif" class="modal-image" />
       </p>
     </b-modal>
 
@@ -163,6 +163,11 @@ export default class Search extends Vue {
   .bottom-pagination {
     margin-top: 30px;
     margin-bottom: 30px;
+  }
+
+  .modal-image {
+    max-height: 90vh;
+    // max-width: 90vw;
   }
 }
 </style>
