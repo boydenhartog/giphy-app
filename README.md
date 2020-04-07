@@ -1,34 +1,6 @@
 # giphy-app
 
-## Project setup
-```
-yarn install
-```
+Use these .env vars:
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
-
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Run your unit tests
-```
-yarn test:unit
-```
-
-### Run your end-to-end tests
-```
-yarn test:e2e
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+    VUE_APP_GIPHY_API_KEY=RyWYJB7klgCR9vwKyjyVDz4eAvoMcRIx
+    VUE_APP_API_BASE_URL=https://giphy-app-be.herokuapp.com/v1/graphql
