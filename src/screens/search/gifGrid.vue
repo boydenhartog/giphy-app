@@ -48,4 +48,14 @@ export default class ResultGrid extends Vue {
     grid-auto-flow: dense;
   }
 }
+
+@media all and (max-width: 600px) {
+  .results-container {
+    margin-top: 8px;
+
+    .grid-container {
+      grid-gap: 8px;
+    }
+  }
+}
 </style>

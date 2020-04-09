@@ -1,17 +1,6 @@
 <template>
-  <div
-    class="grid-item"
-    @click="setActiveGif(url)"
-    :class="ImageClass"
-    :style="imgLoaded ? '' : 'padding-top: '"
-  >
-    <PlaceHolder
-      v-show="!imgLoaded"
-      :height="height"
-      :width="width"
-      class="placeholder"
-    />
-
+  <div class="grid-item" @click="setActiveGif(url)" :class="ImageClass">
+    <PlaceHolder v-show="!imgLoaded" :height="height" :width="width" />
     <img v-show="imgLoaded" class="hvr-grow" :src="url" v-on:load="onImgLoad" />
   </div>
 </template>
@@ -63,8 +52,7 @@ export default class GridItem extends Vue {
 
 <style lang="scss" scoped>
 .grid-item {
-  > img,
-  .placeholder {
+  > img {
     border-radius: 4px;
     width: 100%;
     height: 100%;
@@ -72,17 +60,14 @@ export default class GridItem extends Vue {
     object-fit: cover;
   }
 }
-
 .horizontal {
   grid-column: span 2;
   grid-row: span 1;
-  justify-self: stretch;
 }
 
 .vertical {
   grid-column: span 1;
   grid-row: span 2;
-  align-self: stretch;
 }
 
 .big {

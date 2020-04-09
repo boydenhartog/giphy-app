@@ -122,7 +122,11 @@ export default class Search extends Vue {
   async search() {
     this.isLoading = true;
 
-    if (this.query != this.prevQuery) this.createSearchTerm();
+    if (this.query != this.prevQuery) {
+      this.createSearchTerm();
+      this.page = 1;
+    }
+
     this.prevQuery = this.query;
 
     const res = await searchGifs({
@@ -167,6 +171,15 @@ export default class Search extends Vue {
 
   .modal-image {
     max-height: 90vh;
+  }
+}
+@media all and (max-width: 600px) {
+  .search-group {
+    margin-bottom: 8px;
+  }
+  .bottom-pagination {
+    margin-top: 8px;
+    margin-bottom: 8px;
   }
 }
 </style>

@@ -1,8 +1,10 @@
 <template>
-  <div
-    class="placeholder"
-    :style="`height: ${height}px; width: ${width}px`"
-  ></div>
+  <div class="placeholder">
+    <div
+      class="placeholder-image loading"
+      :style="`min-height: ${height}px;`"
+    />
+  </div>
 </template>
 
 <script lang="ts">
@@ -17,7 +19,46 @@ export default class App extends Vue {
 
 <style lang="scss">
 .placeholder {
-  background-color: "#C7EFCF";
   border-radius: 4px;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  object-fit: cover;
+  // border: 1px solid #ddd;
+
+  .placeholder-image {
+    background: #e9ebee;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    object-fit: cover;
+  }
+}
+
+.loading {
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: "";
+    display: block;
+    background-color: #dddfe2;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    transform: translateX(0);
+    animation: 1.5s loading-placeholder ease-in-out infinite;
+  }
+}
+
+@keyframes loading-placeholder {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 </style>
