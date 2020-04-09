@@ -1,7 +1,12 @@
 <template>
   <div class="grid-item" @click="setActiveGif(url)" :class="ImageClass">
     <PlaceHolder v-show="!imgLoaded" :height="height" :width="width" />
-    <img v-show="imgLoaded" class="hvr-grow" :src="url" v-on:load="onImgLoad" />
+    <img
+      v-show="imgLoaded"
+      class="hvr-grow scale-in"
+      :src="url"
+      v-on:load="onImgLoad"
+    />
   </div>
 </template>
 
