@@ -67,7 +67,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { searchGifs } from "../../utils/giphyApi";
 import { DataResult, Pagination } from "../../utils/giphyApiTypes";
-import ResultGrid from "./resultGrid.vue";
+import ResultGrid from "./cssGrid.vue";
 import gql from "graphql-tag";
 
 const ADD_SEARCH_TERM = gql`
@@ -132,6 +132,7 @@ export default class Search extends Vue {
     });
 
     this.gifs = res.data;
+    console.log(this.gifs);
     this.pagination = res.pagination;
     this.totalCount = this.pagination.total_count;
     this.isLoading = false;

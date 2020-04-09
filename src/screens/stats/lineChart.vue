@@ -71,7 +71,11 @@ export default class LineChartComponent extends Vue {
       datasets: [
         {
           label: "Searches per day",
-          data
+          data,
+          backgroundColor: "#97DFFC",
+          pointBackgroundColor: "#858AE3",
+          pointBorderColor: "#858AE3",
+          borderColor: "#858AE3"
         }
       ]
     };

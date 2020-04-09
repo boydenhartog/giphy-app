@@ -6,6 +6,7 @@
 import { Component, Vue, Prop } from "vue-property-decorator";
 import _ from "lodash";
 import BarChart from "../../components/barChart";
+import Colors from "../../assets/styles/colors";
 
 interface SearchTermResult {
   id: number;
@@ -61,20 +62,18 @@ export default class Stats extends Vue {
           label: "# of searches",
           data,
           backgroundColor: [
-            "rgba(255, 99, 132, 1)",
-            "rgba(54, 162, 235, 1)",
-            "rgba(255, 206, 86, 1)",
-            "rgba(75, 192, 192, 1)",
-            "rgba(153, 102, 255, 1)",
-            "rgba(255, 159, 64, 1)"
+            Colors.darkGrey,
+            Colors.red,
+            Colors.orange,
+            Colors.blueGreen,
+            Colors.green,
           ],
           borderColor: [
-            "rgba(255, 99, 132, 1)",
-            "rgba(54, 162, 235, 1)",
-            "rgba(255, 206, 86, 1)",
-            "rgba(75, 192, 192, 1)",
-            "rgba(153, 102, 255, 1)",
-            "rgba(255, 159, 64, 1)"
+            Colors.darkGrey,
+            Colors.red,
+            Colors.orange,
+            Colors.blueGreen,
+            Colors.green,
           ],
           borderWidth: 1
         }
