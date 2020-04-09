@@ -32,8 +32,13 @@ export interface DataResult {
     fixed_height_downsampled: {
       url: string,
       webp: string,
+    },
+      original: {
+        height: number,
+        width: number,
+        url: string
+      }
     }
-  };
   analytics_response_payload: string;
   analytics: object;
 }

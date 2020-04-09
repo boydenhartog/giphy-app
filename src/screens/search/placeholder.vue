@@ -17,7 +17,7 @@ export default class App extends Vue {
 
 <style lang="scss">
 .placeholder {
-  background-color: red;
+  background-color: "#C7EFCF";
   border-radius: 4px;
 }
 </style>

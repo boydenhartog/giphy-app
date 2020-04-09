@@ -73,17 +73,5 @@ export default class ResultGrid extends Vue {
   img.imgHidden {
     visibility: hidden;
   }
-
-  // .gif-container {
-  //   height: 250px;
-  //   width: 250px;
-  //   margin: 10px;
-
-  //   img {
-  //     width: 100%;
-  //     height: auto;
-  //     margin: 8px;
-  //   }
-  // }
 }
 </style>

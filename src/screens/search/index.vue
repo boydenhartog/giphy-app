@@ -37,7 +37,7 @@
       icon-pack="fa"
     />
 
-    <ResultGrid
+    <GifGrid
       @setActiveGif="openModal($event)"
       :loading="isLoading"
       :gifs="gifs"
@@ -67,7 +67,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { searchGifs } from "../../utils/giphyApi";
 import { DataResult, Pagination } from "../../utils/giphyApiTypes";
-import ResultGrid from "./cssGrid.vue";
+import GifGrid from "./gifGrid.vue";
 import gql from "graphql-tag";
 
 const ADD_SEARCH_TERM = gql`
@@ -84,7 +84,7 @@ const ADD_SEARCH_TERM = gql`
 
 @Component({
   components: {
-    ResultGrid
+    GifGrid
   }
 })
 export default class Search extends Vue {
@@ -132,7 +132,6 @@ export default class Search extends Vue {
     });
 
     this.gifs = res.data;
-    console.log(this.gifs);
     this.pagination = res.pagination;
     this.totalCount = this.pagination.total_count;
     this.isLoading = false;
@@ -168,7 +167,6 @@ export default class Search extends Vue {
 
   .modal-image {
     max-height: 90vh;
-    // max-width: 90vw;
   }
 }
 </style>
