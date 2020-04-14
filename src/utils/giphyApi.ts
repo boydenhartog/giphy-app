@@ -2,8 +2,7 @@ import axios from "axios";
 import moment from "moment";
 import { SearchProps, SearchResponse } from "./giphyApiTypes";
 
-const BASE_URL = "https://api.giphy.com/v1";
-const API_KEY = process.env.VUE_APP_GIPHY_API_KEY;
+const { VUE_APP_GIPHY_BASE_URL, VUE_APP_GIPHY_API_KEY } = process.env;
 const VALID_FOR = 3;
 
 function isValid(dateTime: string) {
@@ -49,7 +48,7 @@ export async function searchGifs({
   offset = 0,
 }: SearchProps): Promise<SearchResponse> {
   try {
-    const url = `${BASE_URL}/gifs/search?q=${query}&api_key=${API_KEY}&limit=${limit}&offset=${offset}"`;
+    const url = `${VUE_APP_GIPHY_BASE_URL}/gifs/search?q=${query}&api_key=${VUE_APP_GIPHY_API_KEY}&limit=${limit}&offset=${offset}"`;
     const cached = getCachedOrInvalidate(url);
     if (cached) return cached;
 

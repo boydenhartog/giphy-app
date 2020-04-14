@@ -3,8 +3,10 @@
     <div class="search-group">
       <b-field>
         <b-input
+          data-test-id="search-bar"
           placeholder="Search..."
           type="search"
+          autofocus
           icon-pack="fas"
           icon-right="search"
           v-model="query"
@@ -36,6 +38,10 @@
       aria-current-label="Current page"
       icon-pack="fa"
     />
+
+    <b-message v-if="noResults" type="is-info">
+      Search yielded no results.
+    </b-message>
 
     <GifGrid
       @setActiveGif="openModal($event)"
@@ -100,6 +106,7 @@ export default class Search extends Vue {
   nextIcon = "chevron-right";
   modalActive = false;
   activeGif = "";
+  noResults = false;
 
   get totalPages() {
     return Math.floor(this.totalCount / this.limit);
@@ -138,6 +145,7 @@ export default class Search extends Vue {
     this.gifs = res.data;
     this.pagination = res.pagination;
     this.totalCount = this.pagination.total_count;
+    this.totalCount === 0 ? (this.noResults = true) : (this.noResults = false);
     this.isLoading = false;
   }
 
