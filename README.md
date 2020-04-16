@@ -16,3 +16,5 @@ Wanted to add:
 
 - Fix imports (need to add .vue for imports)
 - Actually use SCSS variables :)
+
+Backend is setup using Hasura (GraphQL/Postgres)
