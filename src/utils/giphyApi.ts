@@ -1,6 +1,6 @@
 import axios from "axios";
 import moment from "moment";
-import { SearchProps, SearchResponse } from "./giphyApiTypes";
+import { SearchProps, SearchResponse, ErrorResponse } from "./giphyApiTypes";
 
 const { VUE_APP_GIPHY_BASE_URL, VUE_APP_GIPHY_API_KEY } = process.env;
 const VALID_FOR = 3;
@@ -38,27 +38,23 @@ function cacheRequest(url: string, res: SearchResponse) {
         .format()
     );  
   } catch (error) {
-    console.log('Request too large to cache.')
+    console.log("Request too large to cache.")
+    console.log(error);
   }
 }
 
 export async function searchGifs({
   query,
-  limit = 6,
+  limit = 12,
   offset = 0,
 }: SearchProps): Promise<SearchResponse> {
-  try {
-    const url = `${VUE_APP_GIPHY_BASE_URL}/gifs/search?q=${query}&api_key=${VUE_APP_GIPHY_API_KEY}&limit=${limit}&offset=${offset}"`;
-    const cached = getCachedOrInvalidate(url);
-    if (cached) return cached;
+  const url = `${VUE_APP_GIPHY_BASE_URL}/gifs/search?q=${query}&api_key=${VUE_APP_GIPHY_API_KEY}12&limit=${limit}&offset=${offset}"`;
+  const cached = getCachedOrInvalidate(url);
+  if (cached) return cached;
 
-    const res = await axios.get(url);
-    cacheRequest(url, res.data);
+  const res = await axios.get(url);
+  cacheRequest(url, res.data);
 
-    return res.data;
-  } catch (error) {
-    console.log('error: ', error);
-    return error;
-  }
+  return res.data;
 }
 

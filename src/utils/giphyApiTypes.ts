@@ -1,5 +1,6 @@
+
 export interface SearchResponse {
-  data: Array<DataResult>;
+  data: Array<GiphyResult>;
   pagination: Pagination;
   meta: Meta;
 }
@@ -10,7 +11,7 @@ export interface SearchProps {
   offset: number;
 }
 
-export interface DataResult {
+export interface GiphyResult {
   type: string;
   id: string;
   url: string;
@@ -30,23 +31,23 @@ export interface DataResult {
   trending_datetime: string;
   images: {
     fixed_height_downsampled: {
-      url: string,
-      webp: string,
-    },
-      original: {
-        height: number,
-        width: number,
-        url: string
-      }
-    }
+      url: string;
+      webp: string;
+    };
+    original: {
+      height: number;
+      width: number;
+      url: string;
+    };
+  };
   analytics_response_payload: string;
   analytics: object;
 }
 
 export interface Pagination {
   total_count: number;
-  count: number;
-  offset: number;
+  count?: number;
+  offset?: number;
 }
 
 export interface Meta {

@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-import { DataResult } from "../../utils/giphyApiTypes";
+import { GiphyResult } from "../../utils/giphyApiTypes";
 import Loader from "../../components/loader.vue";
 import GridItem from "./gridItem.vue";
 
@@ -29,7 +29,7 @@ import GridItem from "./gridItem.vue";
 })
 export default class ResultGrid extends Vue {
   @Prop() loading!: boolean;
-  @Prop() gifs!: Array<DataResult>;
+  @Prop() gifs!: Array<GiphyResult>;
 
   setActiveGif(activeGif: string) {
     this.$emit("setActiveGif", activeGif);

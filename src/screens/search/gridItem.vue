@@ -1,6 +1,11 @@
 <template>
   <div class="grid-item" @click="setActiveGif(url)" :class="ImageClass">
-    <PlaceHolder v-show="!imgLoaded" :height="height" :width="width" />
+    <PlaceHolder
+      data-testid="placeholder-comp"
+      v-show="!imgLoaded"
+      :height="height"
+      :width="width"
+    />
     <img
       v-show="imgLoaded"
       class="hvr-grow scale-in"
@@ -12,7 +17,6 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-import { DataResult } from "../../utils/giphyApiTypes";
 import Loader from "../../components/loader.vue";
 import PlaceHolder from "./placeholder.vue";
 
@@ -23,26 +27,17 @@ import PlaceHolder from "./placeholder.vue";
   }
 })
 export default class GridItem extends Vue {
-  @Prop() gif!: DataResult;
   @Prop() height!: number;
   @Prop() width!: number;
   @Prop() url!: string;
   imgLoaded = false;
 
   get ImageClass(): string {
-    const ratio = this.getGreatestCommonDivisor(this.width, this.height);
-    const widthAspect = this.width / ratio;
-    const heightAspect = this.height / ratio;
-
-    if (widthAspect / heightAspect >= 1.75) return "horizontal";
-    if (widthAspect / heightAspect <= 0.75) return "vertical";
-    if (this.height > 425 || this.width > 425) return "big";
+    if (this.width / this.height >= 1.75) return "horizontal";
+    if (this.height / this.width >= 1.5) return "vertical";
+    if (this.height >= 350 && this.width >= 350) return "big";
 
     return "";
-  }
-
-  getGreatestCommonDivisor(a: number, b: number): number {
-    return b === 0 ? a : this.getGreatestCommonDivisor(b, a % b);
   }
 
   setActiveGif(activeGif: string) {

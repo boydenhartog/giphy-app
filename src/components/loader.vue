@@ -1,5 +1,5 @@
 <template>
-  <div v-if="loading" class="has-text-centered">
+  <div v-if="loading" data-test-id="loader" class="has-text-centered">
     <div class="lds-ripple">
       <div></div>
       <div></div>

@@ -24,6 +24,7 @@
     </b-modal>
 
     <b-pagination
+      v-if="totalCount > limit && !noResults && !error"
       :total="totalCount"
       :current="page"
       :range-before="3"
@@ -43,6 +44,10 @@
       Search yielded no results.
     </b-message>
 
+    <b-message v-if="error" type="is-danger">
+      Something went wrong.
+    </b-message>
+
     <GifGrid
       @setActiveGif="openModal($event)"
       :loading="isLoading"
@@ -50,7 +55,7 @@
     />
 
     <b-pagination
-      v-if="totalCount > limit"
+      v-if="totalCount > limit && !noResults && !error"
       :total="totalCount"
       :current="page"
       :range-before="3"
@@ -72,7 +77,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { searchGifs } from "../../utils/giphyApi";
-import { DataResult, Pagination } from "../../utils/giphyApiTypes";
+import { GiphyResult } from "../../utils/giphyApiTypes";
 import GifGrid from "./gifGrid.vue";
 import gql from "graphql-tag";
 
@@ -100,13 +105,13 @@ export default class Search extends Vue {
   limit = 12;
   totalCount = 0;
   page = 1;
-  gifs: Array<DataResult> = [];
-  pagination!: Pagination;
+  gifs: Array<GiphyResult> = [];
   prevIcon = "chevron-left";
   nextIcon = "chevron-right";
   modalActive = false;
   activeGif = "";
   noResults = false;
+  error = "";
 
   get totalPages() {
     return Math.floor(this.totalCount / this.limit);
@@ -136,17 +141,25 @@ export default class Search extends Vue {
 
     this.prevQuery = this.query;
 
-    const res = await searchGifs({
+    try {
+      const res = await this.getGiphies();
+      this.gifs = res.data;
+      // Fancy schmancy ES2019
+      this.totalCount = res.pagination?.total_count ?? 0;
+      this.noResults = this.totalCount === 0;
+      this.isLoading = false;
+    } catch (error) {
+      this.error = error;
+      this.isLoading = false;
+    }
+  }
+
+  getGiphies() {
+    return searchGifs({
       query: this.query,
       offset: this.offset,
       limit: this.limit
     });
-
-    this.gifs = res.data;
-    this.pagination = res.pagination;
-    this.totalCount = this.pagination.total_count;
-    this.totalCount === 0 ? (this.noResults = true) : (this.noResults = false);
-    this.isLoading = false;
   }
 
   createSearchTerm() {
