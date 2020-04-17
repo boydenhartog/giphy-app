@@ -74,8 +74,8 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { searchGifs } from "../../utils/giphyApi";
-import { GiphyResult } from "../../utils/giphyApiTypes";
+import { searchGifs } from "@/utils/giphyApi";
+import { GiphyResult } from "@/utils/giphyApiTypes";
 import GifGrid from "./gifGrid.vue";
 import gql from "graphql-tag";
 

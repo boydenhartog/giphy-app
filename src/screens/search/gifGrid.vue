@@ -17,8 +17,8 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-import { GiphyResult } from "../../utils/giphyApiTypes";
-import Loader from "../../components/loader.vue";
+import { GiphyResult } from "@/utils/giphyApiTypes";
+import Loader from "@/components/loader.vue";
 import GridItem from "./gridItem.vue";
 
 @Component({

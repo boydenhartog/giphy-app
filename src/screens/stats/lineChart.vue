@@ -6,7 +6,7 @@
 import { Component, Vue, Prop } from "vue-property-decorator";
 import _ from "lodash";
 import moment from "moment";
-import LineChart from "../../components/lineChart";
+import LineChart from "@/components/lineChart";
 
 interface SearchTermResult {
   id: number;

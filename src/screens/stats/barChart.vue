@@ -5,8 +5,8 @@
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 import _ from "lodash";
-import BarChart from "../../components/barChart";
-import Colors from "../../assets/styles/colors";
+import BarChart from "@/components/barChart";
+import Colors from "@/assets/styles/colors";
 
 interface SearchTermResult {
   id: number;

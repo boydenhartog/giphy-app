@@ -17,7 +17,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import gql from "graphql-tag";
-import Loader from "../../components/loader.vue";
+import Loader from "@/components/loader.vue";
 import LineChart from "./lineChart.vue";
 import BarChart from "./barChart.vue";
 

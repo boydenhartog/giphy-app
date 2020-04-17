@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-import Loader from "../../components/loader.vue";
+import Loader from "@/components/loader.vue";
 import GifPlaceHolder from "./gifPlaceholder.vue";
 
 @Component({
