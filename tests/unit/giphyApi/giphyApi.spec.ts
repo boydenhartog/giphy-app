@@ -4,8 +4,9 @@ import { isValid, getCachedOrInvalidate, searchGifs } from "@/utils/giphyApi";
 import exampleRequest from "./exampleRequest.json";
 
 describe("Giphy Api functions", () => {
+
   describe("isValid()", () => {
-    it("isValid should be true when given time is not in the past", () => {
+    it("isValid should be true when given time is in the future", () => {
       const testTime = moment()
         .add(2, "minutes")
         .format();
@@ -58,6 +59,10 @@ describe("Giphy Api functions", () => {
       expect(getCachedOrInvalidate("test")).toEqual(null);
     });
   });
+
+  // describe("searchGifs()", () => {
+
+  // });
 });
 
 

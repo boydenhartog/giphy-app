@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { shallowMount, mount } from "@vue/test-utils";
+import { shallowMount } from "@vue/test-utils";
 import GridItem from "@/screens/search/gridItem.vue";
 import {
   mockBigGif,
@@ -7,7 +7,6 @@ import {
   mockHorizontalGif,
   mockVerticalGif,
 } from "../../e2e/fixtures/mockGifs";
-
 
 function shallowMountMockGif(gif: {
   images: {
@@ -67,7 +66,7 @@ describe("Grid item", () => {
     expect(wrapper.vm.$data.imgLoaded).toBe(false);
   }); 
 
-  it("imgLoaded is false when <img /> is loaded", () => {
+  it("imgLoaded is true when <img /> is loaded", () => {
     const wrapper = shallowMount(GridItem, {
       propsData: {
         height: 500,
@@ -81,7 +80,8 @@ describe("Grid item", () => {
     expect(wrapper.vm.$data.imgLoaded).toBe(false);
 
     // Simulate img loaded from <img /> tag
-    // "as any" is a workaround, typescript throws error on component methods
+    // "as any" is a workaround, vue/typescript/jest don't play nice together. 
+    // typescript doesn't see vue component methods
     (wrapper.vm as any).onImgLoad();
 
     // ImgLoaded is true after <img /> trigger .onImgLoad()

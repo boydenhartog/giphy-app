@@ -142,7 +142,6 @@ export default class Search extends Vue {
     try {
       const res = await this.getGiphies();
       this.gifs = res.data;
-      // Fancy schmancy ES2019
       this.totalCount = res.pagination?.total_count ?? 0;
       this.noResults = this.totalCount === 0;
       this.isLoading = false;
