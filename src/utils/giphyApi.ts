@@ -38,7 +38,7 @@ export function cacheRequest(url: string, res: SearchResponse) {
         .format()
     );  
   } catch (error) {
-    // console.log("Request too large to cache.")
+    console.log("Request too large to cache.")
     return error;
   }
 }

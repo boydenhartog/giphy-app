@@ -60,9 +60,23 @@ describe("Giphy Api functions", () => {
     });
   });
 
-  // describe("searchGifs()", () => {
+  describe("searchGifs()", () => {
+    // it("should return api response if request is not cached"), () => {
 
-  // });
+    // };
+
+    // it("should return a cached response if it exists and is valid", () => {
+
+    // });
+
+    // it("should throw an error when there's no response", () => {
+    //   // Error is handled in Search component
+    //   expect(searchGifs({ url: "blabla", limit: 1000, offset: "abc" })).toThrowError();
+    // })
+
+
+
+  });
 });
 
 

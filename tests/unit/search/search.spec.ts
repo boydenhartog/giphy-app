@@ -4,9 +4,7 @@ import Search from "@/screens/search/index.vue";
 const DEFAULT_LIMIT = 12;
 
 describe("Search component", () => {
-
   describe("Searching for a term", () => {
-
     it("Should add a searchQuery to the DB when searching", () => {
       const testMethod = jest.fn();
       const wrapper = shallowMount(Search, {
@@ -25,7 +23,7 @@ describe("Search component", () => {
       expect(testMethod).toBeCalled();
     });
 
-    it("Should not add a searchQuery to the DB when searching for the same query but different page", async () => {
+    it("Should not add a searchQuery to the DB when searching for the same query but different page", async (done) => {
       const testMethod = jest.fn();
       const wrapper = shallowMount(Search, {
         methods: {
@@ -38,21 +36,20 @@ describe("Search component", () => {
         },
       });
 
-      
       (wrapper as any).vm.search();
       await wrapper.vm.$nextTick();
-      
+
       (wrapper as any).vm.changePage(2);
       await wrapper.vm.$nextTick();
 
       // It should only be called when searching the first time, not when switching page
       expect(testMethod.mock.calls.length).toBe(1);
+      done();
     });
   });
 
   describe("Pagination", () => {
-
-    it("Offset should jump by DEFAULT_LIMIT per page (default offset)", async () => {
+    it("Offset should jump by DEFAULT_LIMIT per page (default offset)", async (done) => {
       const testMethod = jest.fn();
       const wrapper = shallowMount(Search, {
         methods: {
@@ -65,7 +62,7 @@ describe("Search component", () => {
         },
       });
 
-      // Search 
+      // Search
       (wrapper as any).vm.search();
       await wrapper.vm.$nextTick();
 
@@ -82,6 +79,7 @@ describe("Search component", () => {
 
       // Should have the default (12) * 2 offset (for page 2)
       expect((wrapper as any).vm.offset).toBe(DEFAULT_LIMIT * 2);
+      done();
     });
-  })
+  });
 });
