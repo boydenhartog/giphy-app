@@ -2,7 +2,7 @@ import { Bar } from "vue-chartjs";
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component({
-  extends: Bar,
+  extends: Bar
 })
 export default class BarChart extends Vue {
   @Prop({ default: null }) data!: Record<string, any>;

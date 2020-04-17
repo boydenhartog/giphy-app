@@ -1,6 +1,3 @@
-
- 
-
 export const darkGrey = "#333745";
 export const red = "#E63462";
 export const orange = "#FE5F55";

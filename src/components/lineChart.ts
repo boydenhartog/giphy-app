@@ -2,7 +2,7 @@ import { Line } from "vue-chartjs";
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component({
-  extends: Line,
+  extends: Line
 })
 export default class LineChart extends Vue {
   @Prop({ default: null }) data!: Record<string, any>;
