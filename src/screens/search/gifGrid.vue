@@ -42,6 +42,7 @@ export default class ResultGrid extends Vue {
   margin-top: 30px;
 
   .grid-container {
+    min-height: 50vh;
     display: grid;
     grid-gap: 16px;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));

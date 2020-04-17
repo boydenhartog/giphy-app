@@ -11,7 +11,7 @@
 import { Component, Vue, Prop } from "vue-property-decorator";
 
 @Component({})
-export default class App extends Vue {
+export default class GifPlaceHolder extends Vue {
   @Prop() height!: number;
   @Prop() width!: number;
 }
@@ -24,7 +24,6 @@ export default class App extends Vue {
   height: 100%;
   overflow: hidden;
   object-fit: cover;
-  // border: 1px solid #ddd;
 
   .placeholder-image {
     background: #e9ebee;

@@ -1,6 +1,6 @@
 <template>
   <div class="grid-item" @click="setActiveGif(url)" :class="ImageClass">
-    <PlaceHolder
+    <GifPlaceHolder
       data-testid="placeholder-comp"
       v-show="!imgLoaded"
       :height="height"
@@ -18,12 +18,12 @@
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 import Loader from "../../components/loader.vue";
-import PlaceHolder from "./placeholder.vue";
+import GifPlaceHolder from "./gifPlaceholder.vue";
 
 @Component({
   components: {
     Loader,
-    PlaceHolder
+    GifPlaceHolder
   }
 })
 export default class GridItem extends Vue {

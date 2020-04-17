@@ -20,7 +20,7 @@ describe("Giphy Api functions", () => {
 
       expect(isValid(testTime)).toBe(false);
     });
-  })
+  });
 
   describe("getCachedOrInvalidate()", () => {
     const url = "test";
@@ -57,29 +57,6 @@ describe("Giphy Api functions", () => {
 
       expect(getCachedOrInvalidate("test")).toEqual(null);
     });
-  })
-
-  describe("searchGifs()", () => {
-
-    // it("should return a cached result if request is found in localStorage", async () => {
-    //   const url = "https://api.giphy.com/v1/gifs/search?q=bla&api_key=RyWYJB7klgCR9vwKyjyVDz4eAvoMcRIx&limit=12&offset=0";
-    //   localStorage.setItem(url, JSON.stringify(exampleRequest));
-    //   localStorage.setItem(
-    //     `${url}-validTill`,
-    //     moment()
-    //       .add(3, "minutes")
-    //       .format()
-    //   ); 
-
-    //   expect(await searchGifs({ query: "bla", limit: 12, offset: 0 })).toEqual(
-    //     JSON.stringify(exampleRequest)
-    //   );
-
-    //   // Cleanup
-    //   localStorage.removeItem(url);
-    //   localStorage.removeItem(`${url}-validTill`);
-    // })
-
   });
 });
 

@@ -5,9 +5,13 @@ Vue.use(Buefy, { defaultIconComponent: "vue-fontawesome" });
 import { shallowMount } from "@vue/test-utils";
 import Search from "@/screens/search/index.vue";
 
+const DEFAULT_LIMIT = 12;
+
 describe("Search component", () => {
-  describe("searching for a term", () => {
-    it("should add a searchQuery to the DB when searching", () => {
+
+  describe("Searching for a term", () => {
+
+    it("Should add a searchQuery to the DB when searching", () => {
       const testMethod = jest.fn();
       const wrapper = shallowMount(Search, {
         stubs: {
@@ -30,7 +34,7 @@ describe("Search component", () => {
       expect(testMethod).toBeCalled();
     });
 
-    it("should not add a searchQuery to the DB when searching for the same query but different page", async () => {
+    it("Should not add a searchQuery to the DB when searching for the same query but different page", async () => {
       const testMethod = jest.fn();
       const wrapper = shallowMount(Search, {
         stubs: {
@@ -49,16 +53,20 @@ describe("Search component", () => {
         },
       });
 
-      await (wrapper as any).vm.search();
-      // await Vue.nextTick();
-      await (wrapper as any).vm.changePage(2);
-      // await Vue.nextTick();
+      (wrapper as any).vm.search();
+      await Vue.nextTick();
+      
+      (wrapper as any).vm.changePage(2);
+      await Vue.nextTick();
 
       // It should only be called when searching the first time, not when switching page
       expect(testMethod.mock.calls.length).toBe(1);
     });
+  });
 
-    it("offset should jump by 12 per page (hardcoded offset)", async () => {
+  describe("Pagination", () => {
+
+    it("Offset should jump by DEFAULT_LIMIT per page (default offset)", async () => {
       const testMethod = jest.fn();
       const wrapper = shallowMount(Search, {
         stubs: {
@@ -78,16 +86,18 @@ describe("Search component", () => {
 
       // Search and switch page
       (wrapper as any).vm.search();
-      // await Vue.nextTick();
+      await Vue.nextTick();
       (wrapper as any).vm.changePage(2);
+      await Vue.nextTick();
 
-      expect((wrapper as any).vm.offset).toBe(12);
-      
+      // Should result in 12 giphies
+      expect((wrapper as any).vm.offset).toBe(DEFAULT_LIMIT);
+
       // Change page again
-      // await Vue.nextTick();
       (wrapper as any).vm.changePage(3);
-      
-      expect((wrapper as any).vm.offset).toBe(24);
+      await Vue.nextTick();
+
+      expect((wrapper as any).vm.offset).toBe(DEFAULT_LIMIT * 2);
     });
-  });
+  })
 });

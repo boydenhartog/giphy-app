@@ -30,7 +30,7 @@ function shallowMountMockGif(gif: {
   return wrapper;
 }
 
-describe("grid item", () => {
+describe("Grid item", () => {
   it("has .big css class if width and height > 350", () => {
     const wrapper = shallowMountMockGif(mockBigGif);
     expect(wrapper.get(".big"));

@@ -4,8 +4,6 @@ module.exports = {
     node: true,
   },
   extends: [
-    "plugin:vue/recommended",
-    "plugin:prettier-vue/recommended",
     "plugin:vue/essential",
     "eslint:recommended",
     "@vue/typescript/recommended",
@@ -16,39 +14,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2020,
   },
-  settings: {
-    "prettier-vue": {
-      SFCBlocks: {
-        template: true,
-        script: true,
-        style: true,
-
-        customBlocks: {
-          docs: {
-            lang: "markdown",
-          },
-          config: {
-            lang: "json",
-          },
-          module: {
-            lang: "js",
-          },
-          comments: false,
-        },
-      },
-    },
-    usePrettierrc: true,
-  },
   rules: {
-    "prettier-vue/prettier": [
-      "error",
-      {
-        printWidth: 100,
-        singleQuote: true,
-        semi: false,
-        trailingComma: "es5",
-      },
-    ],
     "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
   },
