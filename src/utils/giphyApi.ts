@@ -1,18 +1,18 @@
 import axios from "axios";
 import moment from "moment";
-import { SearchProps, SearchResponse, ErrorResponse } from "./giphyApiTypes";
+import { SearchProps, SearchResponse } from "./giphyApiTypes";
 
 const { VUE_APP_GIPHY_BASE_URL, VUE_APP_GIPHY_API_KEY } = process.env;
-const VALID_FOR = 3;
+export const VALID_FOR = 3;
 
-function isValid(dateTime: string) {
+export function isValid(dateTime: string) {
   const now = moment();
   const validTo = moment(dateTime);
 
   return validTo.diff(now) > 0;
 }
 
-function getCachedOrInvalidate(url: string) {
+export function getCachedOrInvalidate(url: string) {
   const cachedDataValidTill = localStorage.getItem(`${url}-validTill`);
   
   if (cachedDataValidTill && isValid(cachedDataValidTill)) {
@@ -26,7 +26,7 @@ function getCachedOrInvalidate(url: string) {
   return null;
 }
 
-function cacheRequest(url: string, res: SearchResponse) {
+export function cacheRequest(url: string, res: SearchResponse) {
   // Ran into some giphy responses that are too large to store in local storage.
   // For production would look at other caching solution (localforage)
   try {
@@ -38,8 +38,8 @@ function cacheRequest(url: string, res: SearchResponse) {
         .format()
     );  
   } catch (error) {
-    console.log("Request too large to cache.")
-    console.log(error);
+    // console.log("Request too large to cache.")
+    return error;
   }
 }
 
@@ -48,7 +48,7 @@ export async function searchGifs({
   limit = 12,
   offset = 0,
 }: SearchProps): Promise<SearchResponse> {
-  const url = `${VUE_APP_GIPHY_BASE_URL}/gifs/search?q=${query}&api_key=${VUE_APP_GIPHY_API_KEY}12&limit=${limit}&offset=${offset}"`;
+  const url = `${VUE_APP_GIPHY_BASE_URL}/gifs/search?q=${query}&api_key=${VUE_APP_GIPHY_API_KEY}&limit=${limit}&offset=${offset}"`;
   const cached = getCachedOrInvalidate(url);
   if (cached) return cached;
 

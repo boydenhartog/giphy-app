@@ -6,11 +6,6 @@ describe("Search page", () => {
       response: "fixture:getGiphies",
       delay: 200
     }).as("getGiphies");
-    cy.route({
-      url: "**/v1/graphql/",
-      method: "POST",
-      response: "fixture:postGraphql"
-    }).as("postQuery");
   });
 
   it("should show search page by default", () => {
@@ -67,10 +62,10 @@ describe("Search page", () => {
       .type(searchQuery)
       .type("{enter}");
 
-    // Loader should be visible
+    // Should show the loader
     cy.get("[data-test-id=loader]").should("be.visible");
 
-    // When empty result is in, no items should be visible (mocked response)
+    // When empty result is in, no items should be visible
     cy.wait("@getNoGiphies").then(() => {
       cy.get(".grid-item").should(gridItem => {
         expect(gridItem).to.have.length(0);
@@ -85,45 +80,70 @@ describe("Search page", () => {
       .invoke("text")
       .should("contain", "Search yielded no results.");
   });
+
+  it("should be able to open and close a modal with a giphy", () => {
+    // Search and hit enter
+    cy.get("[data-test-id=search-bar]")
+      .type("boom")
+      .type("{enter}");
+
+    // Should show the loader
+    cy.get("[data-test-id=loader]").should("be.visible");
+
+    // Wait for results
+    cy.wait("@getGiphies").then(() => {
+      // Modal should not be visible
+      expect(cy.get(".modal.is-active").should("not.be.visible"));
+
+      // Click on gify
+      cy.get(".grid-item")
+        .first()
+        .click();
+
+      // Modal should be open
+      expect(cy.get(".modal.is-active").should("be.visible"));
+
+      // Close the modal and check if close-modal button is invisible
+      cy.get(".modal-close")
+        .click()
+        .should("not.exist");
+
+      // Modal should be closed
+      expect(cy.get(".modal.is-active").should("not.be.visible"));
+    });
+  });
+
+  it("should be able to go to the second page", () => {
+    // Search and hit enter
+    cy.get("[data-test-id=search-bar]")
+      .type("boom")
+      .type("{enter}");
+
+    // Should show the loader
+    cy.get("[data-test-id=loader]").should("be.visible");
+
+    // Wait for results
+    cy.wait("@getGiphies").then(() => {
+      // Page 1 should be active
+      cy.get("a.pagination-link")
+        .eq(2)
+        .should("have.class", "is-current")
+        .invoke("text")
+        .should("contain", 1);
+
+      // Get page 2 (first two pagination-links are previous and next)
+      cy.get("a.pagination-link")
+        .eq(3)
+        .click();
+
+      cy.wait("@getGiphies").then(() => {
+        // Page 2 should be active
+        cy.get("a.pagination-link")
+          .eq(3)
+          .should("have.class", "is-current")
+          .invoke("text")
+          .should("contain", 2);
+      });
+    });
+  });
 });
-
-// .find(".grid-item")
-// .then(gridItem => {
-//   const itemCount = Cypress.$(gridItem).length;
-//   expect(gridItem).to.have.length(itemCount);
-// });
-// });
-
-// it("should add a searchterm to the database when searching", () => {
-//   cy.server();
-//   cy.route({
-//     method: "POST",
-//     url: `${process.env.VUE_APP_API_BASE_URL}`
-//   }).as("postSearchTerm");
-
-//   const searchBar = "[data-test-id=search-bar]";
-//   const searchQuery = "boom";
-
-//   cy.visit("");
-
-//   cy.get(searchBar)
-//     .type(searchQuery)
-//     .type("{enter}");
-
-//   // Check response
-//   cy.wait("@postSearchTerm").then(xhr => {
-// assert.equal(xhr.status, 200);
-// assert.equal(
-//   xhr.response.data.insert_SearchTerm.returning[0].term,
-//   searchQuery
-// );
-//   });
-
-//   // `delete_SearchTerm(where: {id: {_eq: 317}}) {
-//   //   returning {
-//   //     term
-//   //     id
-//   //     created_at
-//   //   }
-//   // }`;
-// });
