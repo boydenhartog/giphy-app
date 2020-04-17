@@ -7,7 +7,7 @@ The backend is setup using Hasura (GraphQL/Postgres)
 - To install, use `yarn install` 
 - To run app: `yarn serve` 
 - To run unit tests: `yarn test:unit` 
-- To run e2e tests: `yarn cypress open` 
+- To run e2e tests: `test:cypress` 
 
 Create a .env file in the root folder and use these .env vars:
 
