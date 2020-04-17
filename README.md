@@ -1,6 +1,8 @@
 # giphy-app
 
-Yarn is required to build this app. Get it here: https://github.com/yarnpkg/yarn
+Yarn is required to build this app. 
+Get it here: https://github.com/yarnpkg/yarn
+
 The backend is setup using Hasura (GraphQL/Postgres)
 
 To install, use `yarn install`
