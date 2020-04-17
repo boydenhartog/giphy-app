@@ -5,7 +5,7 @@ const DEFAULT_LIMIT = 12;
 
 describe("Search component", () => {
   describe("Searching for a term", () => {
-    it("Should add a searchQuery to the DB when searching", () => {
+    it("Should add a searchQuery to the DB when searching", async () => {
       const testMethod = jest.fn();
       const wrapper = shallowMount(Search, {
         methods: {
@@ -19,11 +19,13 @@ describe("Search component", () => {
       });
 
       // Not a sexy solution but the Vue/Jest/TS combo isn't working optimally
-      (wrapper as any).vm.search();
+      // Search for "crazygif"
+      await (wrapper as any).vm.search();
+
       expect(testMethod).toBeCalled();
     });
 
-    it("Should not add a searchQuery to the DB when searching for the same query but different page", async (done) => {
+    it("Should not add a searchQuery to the DB when searching for the same query but different page", async () => {
       const testMethod = jest.fn();
       const wrapper = shallowMount(Search, {
         methods: {
@@ -36,20 +38,19 @@ describe("Search component", () => {
         },
       });
 
-      (wrapper as any).vm.search();
-      await wrapper.vm.$nextTick();
+      // Search for "crazygif"
+      await (wrapper as any).vm.search();
 
-      (wrapper as any).vm.changePage(2);
-      await wrapper.vm.$nextTick();
+      // Switch to page 2
+      await (wrapper as any).vm.changePage(2);
 
       // It should only be called when searching the first time, not when switching page
       expect(testMethod.mock.calls.length).toBe(1);
-      done();
     });
   });
 
   describe("Pagination", () => {
-    it("Offset should jump by DEFAULT_LIMIT per page (default offset)", async (done) => {
+    it("Offset should jump by DEFAULT_LIMIT per page (default offset)", async () => {
       const testMethod = jest.fn();
       const wrapper = shallowMount(Search, {
         methods: {
@@ -62,24 +63,20 @@ describe("Search component", () => {
         },
       });
 
-      // Search
-      (wrapper as any).vm.search();
-      await wrapper.vm.$nextTick();
+      // Search for "crazygif"
+      await (wrapper as any).vm.search();
 
-      // Switch page
-      (wrapper as any).vm.changePage(2);
-      await wrapper.vm.$nextTick();
+      // Switch to page 2
+      await (wrapper as any).vm.changePage(2);
 
       // Should have the default (12) offset
       expect((wrapper as any).vm.offset).toBe(DEFAULT_LIMIT);
 
-      // Change page again
-      (wrapper as any).vm.changePage(3);
-      await wrapper.vm.$nextTick();
+      // Change to page 3 
+      await (wrapper as any).vm.changePage(3);
 
       // Should have the default (12) * 2 offset (for page 2)
       expect((wrapper as any).vm.offset).toBe(DEFAULT_LIMIT * 2);
-      done();
     });
   });
 });
