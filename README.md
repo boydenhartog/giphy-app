@@ -5,8 +5,8 @@ Get it here: https://github.com/yarnpkg/yarn
 
 The backend is setup using Hasura (GraphQL/Postgres)
 
-To install, use `yarn install`
-To run app: `yarn serve`
+To install, use `yarn install` \n
+To run app: `yarn serve` \n
 To run unit tests: `yarn test:unit`
 To run e2e tests: `yarn cypress open`
 
