@@ -4,12 +4,12 @@ Yarn is required to build this app. Get it here: https://github.com/yarnpkg/yarn
 
 The backend is setup using Hasura (GraphQL/Postgres)
 
-To install, use `yarn install`
-To run app: `yarn serve`
-To run unit tests: `yarn test:unit`
-To run e2e tests: `yarn cypress open`
+To install, use `yarn install` 
+To run app: `yarn serve` 
+To run unit tests: `yarn test:unit` 
+To run e2e tests: `yarn cypress open` 
 
-Use these .env vars:
+Create a .env file in the root folder and use these .env vars:
 
     VUE_APP_GIPHY_API_KEY=RyWYJB7klgCR9vwKyjyVDz4eAvoMcRIx
     VUE_APP_GIPHY_BASE_URL=https://api.giphy.com/v1
