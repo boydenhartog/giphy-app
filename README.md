@@ -1,5 +1,7 @@
 # giphy-app
 
+Had a lot of fun on this one! First time trying CSS Grid and also my first time writing tests for a Vue app. 
+
 Yarn is required to build this app. Get it here: https://github.com/yarnpkg/yarn
 
 The backend is setup using Hasura (GraphQL/Postgres)
