@@ -57,4 +57,3 @@ export async function searchGifs({
 
   return res.data;
 }
-

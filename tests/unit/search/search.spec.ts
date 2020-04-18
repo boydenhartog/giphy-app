@@ -1,9 +1,18 @@
+import axios from "axios";
 import { shallowMount } from "@vue/test-utils";
 import Search from "@/screens/search/index.vue";
+import exampleResponse from "../giphyApi/exampleResponse.json";
 
 const DEFAULT_LIMIT = 12;
 
+jest.mock("axios");
+const mockedAxios = axios as jest.Mocked<typeof axios>;
+
 describe("Search component", () => {
+  beforeEach(() => {
+    mockedAxios.get.mockResolvedValue(exampleResponse);
+  });
+
   describe("Searching for a term", () => {
     it("Should add a searchQuery to the DB when searching", async () => {
       const testMethod = jest.fn();

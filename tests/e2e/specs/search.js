@@ -28,6 +28,11 @@ describe("Search page", () => {
   });
 
   it("should see a loader and giphies after searching succesfully", () => {
+    // Use real API call for happy flow
+    cy.route({
+      url: "**/v1/gifs/**"
+    }).as("getGiphies");
+
     // Search and hit enter
     cy.get("[data-test-id=search-bar]")
       .type("boom")
@@ -39,6 +44,7 @@ describe("Search page", () => {
     // When response is in, should show 12 gifs (mocked response)
     cy.wait("@getGiphies").then(() => {
       cy.get(".grid-item").should(gridItem => {
+        // Popular term for gifs, should always return > 12
         expect(gridItem).to.have.length(12);
       });
     });
@@ -145,5 +151,51 @@ describe("Search page", () => {
           .should("contain", 2);
       });
     });
+  });
+
+  it("should show an error message on a bad request", () => {
+    const searchBar = "[data-test-id=search-bar]";
+    const searchQuery = "ufcafafsdafsdafwweqr2qg1";
+    const error = new Error("Invalid API Key");
+
+    cy.route({
+      url: "**/v1/gifs/**",
+      response: () => Promise.reject(error),
+      delay: 200
+    }).as("getGiphies");
+
+    Cypress.on("fail", error => {
+      // We are expecting this error to be thrown, do not fail the test
+      if (error.message === "Invalid API Key") {
+        return false;
+      }
+
+      throw error; // throw error to have test still fail
+    });
+
+    // Search and hit enter
+    cy.get(searchBar)
+      .type(searchQuery)
+      .type("{enter}");
+
+    // Should show the loader
+    cy.get("[data-test-id=loader]").should("be.visible");
+
+    // On bad response, no giphies should be shown
+    cy.wait("@getNoGiphies").then(() => {
+      expect().to.throw(error);
+    });
+
+    cy.get(".grid-item").should(gridItem => {
+      expect(gridItem).to.have.length(0);
+    });
+
+    // Loader should be hidden
+    cy.get("[data-test-id=loader]").should("not.be.visible");
+
+    // No resuls notification should be visible
+    cy.get(".media-content")
+      .invoke("text")
+      .should("contain", "Something went wrong.");
   });
 });

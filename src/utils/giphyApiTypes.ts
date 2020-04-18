@@ -30,13 +30,9 @@ export interface GiphyResult {
   import_datetime: string;
   trending_datetime: string;
   images: {
-    fixed_height_downsampled: {
-      url: string;
-      webp: string;
-    };
     original: {
-      height: number;
-      width: number;
+      height: string;
+      width: string;
       url: string;
     };
   };
