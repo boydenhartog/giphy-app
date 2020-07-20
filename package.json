@@ -27,7 +27,7 @@
     "core-js": "^3.6.4",
     "graphql": "14.6.0",
     "graphql-tag": "^2.10.3",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "vue": "^2.6.11",
     "vue-apollo": "^3.0.3",
     "vue-chartjs": "^3.5.0",
